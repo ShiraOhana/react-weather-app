@@ -1,59 +1,46 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./Weather.css";
 
 export default function Weather() {
-  const [city, setCity] = useState("");
-  const [loaded, setLoaded] = useState(false);
-  const [weather, setWeather] = useState({});
+  return (
+    <div className="Weather">
+      <form>
+        <div className="row">
+          <div className="col-8">
+            <input
+              type="search"
+              placeholder="Enter a city"
+              className="form-control"
+            />
+          </div>
+          <div className="col-3">
+            <input type="submit" value="Search" className="btn btn-primary" />
+          </div>
+        </div>
+      </form>
 
-  function displayWeather(response) {
-    setLoaded(true);
-    setWeather({
-      temperature: response.data.main.temp,
-      description: response.data.weather[0].description,
-      humidity: response.data.main.humidity,
-      wind: response.data.wind.speed,
-      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
-    });
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=45be73f84a5b597b7603c48501d80624&units=metric`;
-    axios.get(url).then(displayWeather);
-  }
-  function updatecity(event) {
-    setCity(event.target.value);
-  }
-
-  let form = (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="search"
-        placeholder="Enter a city..."
-        onChange={updatecity}
-      />
-      <input type="submit" value="Search" />
-    </form>
-  );
-  if (loaded) {
-    return (
-      <div>
-        {" "}
-        {form}
-        <ul>
-          <li>tempetarure: {Math.round(weather.temperature)} C</li>
-          <li>humidity: {weather.humidity} %</li>
-          <li>wind: {weather.wind} km/h</li>
-          <li>{weather.description}</li>
-          <li>
-            {" "}
-            <img src={weather.icon} alt="Weather" />
-          </li>
-        </ul>
+      <h1>Tel Aviv</h1>
+      <ul>
+        <li>Wednesday 07:00</li>
+        <li>Mostly cloudy</li>
+      </ul>
+      <div className="row">
+        <div className="col-6">
+          <img
+            src="https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png"
+            alt="mostly cloudy"
+          ></img>
+          6°C
+        </div>
+        <div className="col-6">
+          <ul>
+            <li>Precipitation : 15%</li>
+            <li>Humidity : 72 %</li>
+            <li>Wind : 5 km/h</li>
+          </ul>
+        </div>
       </div>
-    );
-  } else {
-    return form;
-  }
+    </div>
+  );
 }
